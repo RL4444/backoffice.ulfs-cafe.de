@@ -1,0 +1,46 @@
+.notification {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    padding: 3px 12px;
+    border-radius: 6px;
+    border: 1px solid #c7c7c7;
+    background-color: #e7e7e7;
+    color: #515151;
+    transform: translateX(-1000px);
+    filter: opacity(0.2);
+    width: 350px;
+}
+
+.notification.error {
+    background: #f9d6d6;
+    color: #8f1919;
+}
+
+.notification.success {
+    background: #c9ebd2;
+    color: #088828;
+}
+
+.notification.onscreen {
+    transform: translateX(0);
+    transition: all 0.8s ease-in-out;
+    filter: opacity(1);
+}
+
+.notification-text {
+    color: inherit;
+}
+
+.notification-close-btn {
+    padding: 12px;
+    transform: translateY(3px);
+}
+
+.notification-close-btn:hover {
+    filter: contrast(120%);
+    cursor: pointer;
+    border-radius: 100%;
+}

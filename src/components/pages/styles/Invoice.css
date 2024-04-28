@@ -1,0 +1,49 @@
+.util-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    border-radius: 100%;
+    background: transparent;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.util-button:hover {
+    background-color: rgb(204, 203, 203);
+}
+
+.print-pdf-doc {
+    line-height: 32px;
+}
+.print-pdf-doc p {
+    line-height: 24px !important;
+}
+
+@media all {
+    .page-break {
+        display: none;
+    }
+}
+
+@media print {
+    html,
+    body {
+        height: initial !important;
+        overflow: initial !important;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+@media print {
+    .page-break {
+        margin-top: 1 rem;
+        display: block;
+        page-break-before: auto;
+    }
+}
+
+@page {
+    size: auto;
+    margin: 20 mm;
+}

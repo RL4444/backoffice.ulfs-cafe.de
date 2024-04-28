@@ -1,0 +1,126 @@
+.input-wrapper {
+    border: 1px solid var(--inputBorder);
+    border-radius: 4px;
+    padding: 6px 4px;
+    background-color: #fff;
+    margin-top: 4px;
+}
+
+.input-wrapper input {
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    border: none;
+    max-width: unset;
+    width: 100%;
+}
+
+.input-wrapper:focus-within {
+    border: 1px solid var(--blueXtraLight);
+    transition-duration: 0.2s;
+}
+.label.focused {
+    color: var(--blue);
+}
+
+.label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.react-datepicker__input-container {
+    border: 1px solid var(--inputBorder);
+    border-radius: 4px;
+    padding: 6px 4px;
+    background-color: #fff;
+    margin-top: 4px;
+}
+
+.react-datepicker__input-container > input {
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    border: none;
+    max-width: unset;
+    width: 100%;
+}
+
+/* select menu */
+.select_outer_wrapper {
+    position: relative;
+    width: 220px;
+    cursor: pointer;
+}
+
+.select_inner_display {
+    border: 1px solid var(--inputBorder);
+    border-radius: 4px;
+    padding: 6px 12px;
+    background-color: #fff;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.chevron {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+
+    border-top: 7px solid var(--textLight);
+}
+
+.select_dropdown_menu_wrapper {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid #c1c1c1;
+}
+
+.select_dropdown_menu_wrapper.open {
+    display: flex;
+}
+
+.select_dropdown_menu_each_row {
+    background: white;
+    color: var(--textMedium);
+    padding: 6px 12px;
+}
+
+.select_dropdown_menu_each_row:hover {
+    background: var(--bgDarkWhite);
+    color: var(--textMedium);
+}
+
+/* invoice table rows */
+.invoice-circle {
+    background: #119ffe;
+    color: white;
+    min-width: 35px;
+    max-width: 35px;
+    min-height: 35px;
+    max-height: 35px;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.grey-bg-hover:hover {
+    background: var(--bgWhite);
+    transition-duration: 0.2s;
+}
+.border-bottom-grey {
+    border-bottom: 1px solid var(--inputBorder);
+}
+
+/* PDF Viewer */

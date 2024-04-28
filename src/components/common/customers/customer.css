@@ -1,0 +1,20 @@
+.customer-circle {
+    background: #fe8b11;
+    color: white;
+    min-width: 35px;
+    max-width: 35px;
+    min-height: 35px;
+    max-height: 35px;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+.grey-bg-hover:hover {
+    background: var(--bgWhite);
+    transition-duration: 0.2s;
+}
+
+.border-bottom-grey {
+    border-bottom: 1px solid var(--inputBorder);
+}

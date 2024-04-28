@@ -1,0 +1,27 @@
+.search-input-wrapper {
+    border: 1px solid var(--inputBorder);
+    border-radius: 4px;
+    padding: 6px 4px;
+    background-color: #fff;
+    margin-top: 4px;
+    display: flex;
+    max-width: 300px;
+}
+
+.search-input-wrapper input {
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    border: none;
+    max-width: unset;
+    width: 100%;
+}
+
+.search-input-wrapper.icon {
+    width: 20px;
+    color: var(--textLightGrey);
+}
+
+input:focus::placeholder {
+    color: transparent;
+}

@@ -1,0 +1,45 @@
+.button {
+    display: flex;
+    align-items: center;
+    background: var(--blue);
+    padding: 9px 38px;
+    color: white;
+    font-size: 14px;
+    transition-duration: 0.2s;
+    border-radius: 20px;
+}
+
+.button.hollow {
+    border: 1px solid var(--blue);
+    background-color: transparent;
+    color: var(--blue);
+}
+
+.button.danger {
+    color: white;
+    background: var(--red);
+}
+
+.button.confirm {
+    color: white;
+    background: var(--green);
+}
+
+.button:hover {
+    filter: brightness(110%);
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.button.hollow:hover {
+    filter: brightness(110%);
+    cursor: pointer;
+    background: var(--blue);
+    color: white;
+    transition-duration: 0.2s;
+}
+
+.button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
