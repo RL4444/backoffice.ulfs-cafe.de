@@ -5,7 +5,7 @@ const CustomersSchema = new Schema({
     companyName: { type: String, required: true, default: "Das GmbH" },
     contactName: { type: String, required: true, default: "John Doe" },
     email: { type: String, required: true, unique: true },
-    taxId: { type: String, required: true, default: "1234556678" },
+    taxId: { type: String, required: false, default: "" },
     address: [{ type: String, required: true, default: "address line" }],
 });
 
