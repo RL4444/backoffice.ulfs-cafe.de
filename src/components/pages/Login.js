@@ -7,7 +7,7 @@ import Cookies from "universal-cookie";
 import CafeLogo from "../../images/cafelogo.png";
 
 const cookies = new Cookies();
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 export const Logout = () => {
     console.log("logging out");

@@ -1,7 +1,7 @@
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 export const getHeaders = () => {
     return { mode: "same-origin", redirect: "follow", credentials: "include", token: cookies.get("TOKEN") };

@@ -8,7 +8,7 @@ import TableFilters from "../common/invoices/TableFilters";
 import Navbar from "../common/Navbar";
 import { getHeaders } from "../../api";
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 // TODO: add search functionality
 const Invoices = () => {
     const [loading, setLoading] = useState(false);

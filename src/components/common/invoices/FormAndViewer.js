@@ -22,7 +22,7 @@ import "./form.css";
 import { Input as Field } from "../Input";
 import { getHeaders } from "../../../api";
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 registerLocale("de", de);
 
 const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {

@@ -8,7 +8,7 @@ import "./styles/Navbar.css";
 import Button from "./Buttons";
 import { Logout } from "../pages/Login";
 import { getHeaders } from "../../api";
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 const Navbar = () => {
     const [shouldLogUserOut, setShouldLogUserOut] = useState(false);

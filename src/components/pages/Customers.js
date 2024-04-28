@@ -8,7 +8,7 @@ import { getHeaders } from "../../api";
 
 import "../common/customers/customer.css";
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 const Customers = () => {
     const [requestError, setRequestError] = useState(null);
