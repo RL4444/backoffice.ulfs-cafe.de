@@ -44,7 +44,7 @@ app.use(
 app.use("/api/v1", apiRoutes);
 
 if (!isDev) {
-    process.env.REACT_APP_API_BASE_URL = process.env.PORT;
+    process.env.REACT_APP_API_BASE_URL = "";
 } else {
     console.log("In dev mode @ ", process.env.REACT_APP_API_BASE_URL);
 }
