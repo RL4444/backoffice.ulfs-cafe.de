@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlinePlusSm } from "react-icons/hi";
-import Button from "../common/Buttons";
-import Navbar from "../common/Navbar";
+import Button from "../components/common/Buttons";
+import Navbar from "../components/common/Navbar";
 
-import { getHeaders } from "../../api";
+import { getHeaders } from "../api";
 
-import "../common/customers/customer.css";
+import "../components/common/customers/customer.css";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 

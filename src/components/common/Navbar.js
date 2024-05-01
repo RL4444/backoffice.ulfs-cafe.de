@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { HiOutlineDocumentText, HiOutlineUsers, HiOutlineCog, HiArrowRight, HiArrowLeft, HiHome } from "react-icons/hi";
+
+import { Logout } from "../../pages/Login";
+import Button from "./Buttons";
 
 import CafeLogo from "../../images/cafelogo.png";
-
-import "./styles/Navbar.css";
-import Button from "./Buttons";
-import { Logout } from "../pages/Login";
 import { getHeaders } from "../../api";
+
+import { HiOutlineDocumentText, HiOutlineUsers, HiOutlineCog, HiArrowRight, HiArrowLeft, HiHome } from "react-icons/hi";
+import "./Navbar.css";
+
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 const Navbar = () => {

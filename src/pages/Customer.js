@@ -1,6 +1,6 @@
 import React from "react";
-import CustomerForm from "../common/customers/CustomerForm";
-import Navbar from "../common/Navbar";
+import CustomerForm from "../components/common/customers/CustomerForm";
+import Navbar from "../components/common/Navbar";
 
 const Customer = ({ match }) => {
     const { customerEmail } = match.params;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Page, Text, View, Document, StyleSheet, Image, Font } from "@react-pdf/renderer";
 
-import "../../pages/styles/Invoice.css";
+import "./Invoice.css";
 
 import InterSemiBold from "../../../fonts/Inter-Bold.ttf";
 import InterRegular from "../../../fonts/Inter-Regular.ttf";

@@ -3,7 +3,7 @@ import { HiOutlineX, HiBadgeCheck, HiExclamationCircle, HiSpeakerphone } from "r
 
 import NotificationContext from "../../contexts/Notification";
 
-import "./styles/Notification.css";
+import "./Notification.css";
 
 const Notification = () => {
     const notification = useContext(NotificationContext);

@@ -41,10 +41,10 @@ const CustomerForm = ({ customerEmail }) => {
                     customer: customerPayload,
                 }),
                 method: "POST",
-                headers: getHeaders(),
+                headers: { ...getHeaders(), "Content-type": "application/json" },
             });
 
-            const { success, error, message } = await res.json();
+            const { success, error } = await res.json();
 
             if (success) {
                 history.replace("/customers");

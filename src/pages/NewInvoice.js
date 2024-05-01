@@ -1,7 +1,7 @@
 import React from "react";
-import FormAndViewer from "../common/invoices/FormAndViewer";
 
-import Navbar from "../common/Navbar";
+import FormAndViewer from "../components/common/invoices/FormAndViewer";
+import Navbar from "../components/common/Navbar";
 
 const NewInvoice = () => {
     return (

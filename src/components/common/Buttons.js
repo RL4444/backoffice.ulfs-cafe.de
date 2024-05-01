@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "./styles/Button.css";
+import "./Button.css";
 
 const Button = ({
     type = "",

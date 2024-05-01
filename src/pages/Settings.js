@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../common/Navbar";
+import Navbar from "../components/common/Navbar";
 
 const Settings = () => {
     return (

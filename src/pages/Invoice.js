@@ -1,17 +1,17 @@
 import React, { useRef, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+
 import { AiOutlineSave, AiOutlinePrinter, AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
-import FormAndViewer from "../common/invoices/FormAndViewer";
+import FormAndViewer from "../components/common/invoices/FormAndViewer";
+import Modal from "../components/common/Modal";
+import Button from "../components/common/Buttons";
+import NotificationContext from "../contexts/Notification";
+import Navbar from "../components/common/Navbar";
+import { getHeaders } from "../api";
 
 import { HiExclamation } from "react-icons/hi";
-import "./styles/Invoice.css";
-import Modal from "../common/Modal";
-import Button from "../common/Buttons";
-import NotificationContext from "../../contexts/Notification";
-import Navbar from "../common/Navbar";
-
-import { getHeaders } from "../../api";
+import "../components/common/invoices/Invoice.css";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 

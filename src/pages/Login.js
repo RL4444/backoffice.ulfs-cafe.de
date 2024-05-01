@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Input from "../common/Input";
 import { Redirect } from "react-router-dom";
-import Button from "../common/Buttons";
-
 import Cookies from "universal-cookie";
-import CafeLogo from "../../images/cafelogo.png";
+
+import Button from "../components/common/Buttons";
+import Input from "../components/common/Input";
+
+import CafeLogo from "../images/cafelogo.png";
 
 const cookies = new Cookies();
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
@@ -12,6 +13,7 @@ const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 export const Logout = () => {
     console.log("logging out");
     cookies.remove("TOKEN", { path: "/" });
+    localStorage.clear();
     return <Redirect to="/login" />;
 };
 
@@ -78,7 +80,7 @@ const Login = () => {
                     </div>
                 </>
             ) : (
-                <Redirect to="/" />
+                <Redirect to="/login" />
             )}
         </div>
     );

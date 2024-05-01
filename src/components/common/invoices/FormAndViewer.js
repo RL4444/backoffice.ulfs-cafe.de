@@ -3,8 +3,7 @@ import moment from "moment";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { registerLocale } from "react-datepicker";
-import de from "date-fns/locale/de";
-import ReactPDF, { PDFViewer, PDFDownloadLink, pdf } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlineDocumentDownload } from "react-icons/hi"; // cool icon
 
@@ -14,13 +13,14 @@ import InvoicePDF, { PlainHTMLPDF } from "./InvoicePDF";
 import AddCustomer from "./ AddCustomer";
 import NotificationContext from "../../../contexts/Notification";
 import Modal from "../Modal";
+import { Input as Field } from "../Input";
 
 import { taxCategories } from "./utils";
+import { getHeaders } from "../../../api";
 
+import de from "date-fns/locale/de";
 import "react-datepicker/dist/react-datepicker.css";
 import "./form.css";
-import { Input as Field } from "../Input";
-import { getHeaders } from "../../../api";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 registerLocale("de", de);

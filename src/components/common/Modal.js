@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { HiOutlineX } from "react-icons/hi";
-import "./styles/modal.css";
+import "./modal.css";
 
 const Modal = ({ children, closeCb }) => {
     useEffect(() => {

@@ -9,7 +9,7 @@ import NewInvoice from "./pages/NewInvoice";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
-import PrivateRoute from "./common/PrivateRoute";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 function App() {
     const getRoutes = () => {

@@ -18,7 +18,7 @@ const Table = ({ items = [], loading = false }) => {
 
     return (
         <div>
-            <div className="d-flex ai-c mb-1">
+            <div className="d-flex ai-c mb-1 ">
                 <div style={{ maxWidth: 120, minWidth: 120 }}></div>
                 <div style={{ maxWidth: 150, minWidth: 150 }}>
                     <strong className="text-light-grey label" style={{ fontSize: 12 }}>

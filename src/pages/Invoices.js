@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import { HiOutlinePlusSm } from "react-icons/hi";
-import Button from "../common/Buttons";
-import SearchBar from "../common/search/Searchbar";
-import Table from "../common/invoices/TableView";
-import TableFilters from "../common/invoices/TableFilters";
-import Navbar from "../common/Navbar";
-import { getHeaders } from "../../api";
+import Button from "../components/common/Buttons";
+import SearchBar from "../components/common/search/Searchbar";
+import Table from "../components/common/invoices/TableView";
+import TableFilters from "../components/common/invoices/TableFilters";
+import Navbar from "../components/common/Navbar";
 
+import { getHeaders } from "../api";
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 // TODO: add search functionality
 const Invoices = () => {
@@ -61,7 +61,7 @@ const Invoices = () => {
                         />
                     </div>
                 </div>
-                <div className="card-border mt-3" style={{ maxWidth: 1100 }}>
+                <div className="card-border mt-3" style={{ maxWidth: 1100, minWidth: "min-content" }}>
                     {requestError && <p className="mt-1 mb-1 ml-3 text-red"></p>}
                     {/* aligned fe until search bar works */}
                     <div className="card-padding bg-primary d-flex jc-fe">
