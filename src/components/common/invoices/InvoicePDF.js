@@ -79,7 +79,7 @@ const styles = StyleSheet.create(styleNodes);
 class InvoicePDF extends React.Component {
     render() {
         const {
-            // customerName = "John Doe",
+            customerName = "",
             companyName,
             address,
             invoiceNumber,
@@ -98,6 +98,7 @@ class InvoicePDF extends React.Component {
             <Document>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.columnLeft}>
+                        <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginBottom: 4 }}>{customerName}</Text>
                         <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginBottom: 4 }}>{companyName}</Text>
                         {address.length &&
                             address.map((eachLine, index) => {
@@ -149,17 +150,25 @@ class InvoicePDF extends React.Component {
                         {serviceItems.length > 0 &&
                             serviceItems.map((eachServiceItem, index) => {
                                 return (
-                                    <View key={index} style={{ display: "flex", flexDirection: "row", marginTop: 6 }}>
+                                    <View
+                                        key={index}
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginTop: 6,
+                                            flexWrap: "nowrap",
+                                        }}
+                                    >
                                         <Text style={{ fontFamily: "InterRegular", width: 150, fontSize: "12px" }}>
                                             {eachServiceItem.article}
                                         </Text>
-                                        <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "12px", textAlign: "center" }}>
+                                        <Text style={{ fontFamily: "InterRegular", width: 60, fontSize: "12px", textAlign: "center" }}>
                                             {eachServiceItem.quantity}
                                         </Text>
                                         <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "12px", textAlign: "center" }}>
                                             {eachServiceItem.price}
                                         </Text>
-                                        <Text style={{ fontFamily: "InterRegular", width: 60, fontSize: "12px", textAlign: "right" }}>
+                                        <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "12px", textAlign: "right" }}>
                                             {(eachServiceItem.price * eachServiceItem.quantity).toFixed(2)}&nbsp;€
                                         </Text>
                                     </View>
@@ -241,7 +250,7 @@ class InvoicePDF extends React.Component {
 export class PlainHTMLPDF extends React.PureComponent {
     render() {
         const {
-            // customerName = "John Doe",
+            customerName = "",
             companyName,
             address,
             invoiceNumber,
@@ -259,6 +268,7 @@ export class PlainHTMLPDF extends React.PureComponent {
         return (
             <section style={styles.printwrapper} className="print-pdf-doc">
                 <div style={styles.printcolumnLeft}>
+                    <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>{customerName}</p>
                     <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>{companyName}</p>
                     {address.length &&
                         address.map((eachLine, index) => {
@@ -292,9 +302,9 @@ export class PlainHTMLPDF extends React.PureComponent {
 
                     <div style={{ display: "flex", marginTop: 40, flexDirection: "row" }}>
                         <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 150, fontSize: "15px" }}>Artikel</p>
-                        <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 90, fontSize: "15px" }}>Anzahl</p>
+                        <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 60, fontSize: "15px" }}>Anzahl</p>
                         <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 90, fontSize: "15px" }}>Einzelpreis</p>
-                        <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 60, fontSize: "15px", textAlign: "right" }}>
+                        <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 90, fontSize: "15px", textAlign: "right" }}>
                             Gesamt
                         </p>
                     </div>
@@ -302,7 +312,16 @@ export class PlainHTMLPDF extends React.PureComponent {
                     {serviceItems.length > 0 &&
                         serviceItems.map((eachServiceItem, index) => {
                             return (
-                                <div key={index} style={{ display: "flex", flexDirection: "row", marginTop: 6 }}>
+                                <div
+                                    key={index}
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        marginTop: 6,
+                                        whiteSpace: "nowrap",
+                                        flexWrap: "nowrap",
+                                    }}
+                                >
                                     <p
                                         style={{
                                             fontFamily: "sans-serif",
