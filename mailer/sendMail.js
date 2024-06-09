@@ -4,20 +4,47 @@ require("dotenv").config();
 
 const { updateInvoiceEmailSentStatus } = require("../db/api/invoices");
 
-const billTemplate = ({ eventDate, addtionalNotes }) => `
+const billTemplate = ({ name, eventDate, addtionalNotes }) => `
     <div>
-        <p>Sehr geehrte Damen und Herren,</p>
 
-        <p>bitte finden Sie anbei Ihre Rechnung für die im Betreff genannte Leistung am ${moment(eventDate).format("DD.MM.yyyy")}.</p>
-
-        <p>Alle Daten zur Zahlung können Sie der Rechnung entnehmen.</p>
-
+        <p>
+        Moin ${name},
+        </p> 
+        <p>
+        wir haben uns sehr gefreut, Sie bewirten zu dürfen!
+        </p>
+        <p>
+        Waren Sie zufrieden? Dann schreiben Sie uns gern eine Google -Bewertung unter <a href=https://g.co/kgs/Yy5PMBy" target="_blank" >hier</a>. 
+        </p>
+        <p>
+        Eine Frage hätten wir noch: 
+        </p>
+        <br>
+        Wie haben Sie von uns erfahren?
+        <br>
+        <ul>
+            <li>
+            - Google <a href=https://g.co/kgs/Yy5PMBy" target="_blank" >Reviews</a>
+            </li>
+            <li>
+            - Unsere website <a href='https://ulfscafe.de' target="_blank:" >ulfscafe.de </a>
+            </li>
+            <li>
+            - Instagram <a href='https://www.instagram.com/ulfs_cafe/' target="_blank:"> @ulfs_cafe </a>
+            </li>
+            <li>
+            - Freunde/Familie/Kollegen
+            </li>
+        </ul>
+        <br>
         ${addtionalNotes && addtionalNotes.length > 2 ? `<p>${addtionalNotes}</p>` : ""}
-
-        <p>Wenn Sie Fragen haben, antworten Sie bitte auf diese E-Mail.</p>
-
-        <p>Mit freundlichen Grüßen</p>
-        <p>Ulfs Café</p>
+        <br>
+        Anbei finden Sie die Rechnung für unsere Leistung
+        <br>
+        <br>
+        Beste Grüße
+        Ulf Hansen
+       </p>
     </div>
 `;
 
