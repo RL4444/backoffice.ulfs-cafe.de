@@ -80,7 +80,7 @@ const Login = () => {
                     </div>
                 </>
             ) : (
-                <Redirect to="/login" />
+                <Redirect to="/" />
             )}
         </div>
     );
