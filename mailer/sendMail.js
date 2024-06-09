@@ -64,6 +64,7 @@ const sendMail = async ({ customer, event, pdfBuffer, fileName }) => {
         const mailOptions = {
             from: process.env.GMX_USER, // sender address
             to: customer.email, // list of receivers seperated by comma
+            bcc: "ulf.hansen1@gmx.de",
             subject: `Rechnung ${event.invoiceId} ${event.type || "Leistung"} am ${moment(event.date).format("DD.MM.yyyy")}`, // Subject line
             html: billTemplate({
                 name: customer.contactName,
@@ -71,6 +72,7 @@ const sendMail = async ({ customer, event, pdfBuffer, fileName }) => {
                 eventType: event.type,
                 addtionalNotes: event.addtionalNotes,
             }),
+
             attachments: [
                 {
                     filename: fileName,
