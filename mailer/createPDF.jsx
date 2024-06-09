@@ -202,7 +202,7 @@ class InvoicePDF extends React.Component {
                     </View>
 
                     <View style={styles.columnRight}>
-                        <Image src={imgSrc} style={styles.image} />
+                        <Image src="cafelogo.png" style={styles.image} />
                         <Text style={{ fontFamily: "InterRegular", color: "#b86127", fontSize: 18, marginTop: 30 }}>Cafeteria im HPI</Text>
                         <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "6px" }}>Ulf Hansen</Text>
 
