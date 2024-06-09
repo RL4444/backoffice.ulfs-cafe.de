@@ -7,7 +7,14 @@ const { log } = require("mercedlogger"); // import merced logger
 const mongoURI = process.env.REACT_APP_MONGODB_URI;
 
 const { getAllCustomers, createOrUpdateCustomer, getCustomer } = require("./api/customers");
-const { createOrUpdateInvoice, getAllInvoices, getInvoice, updateInvoiceEmailSentStatus, archiveInvoice } = require("./api/invoices");
+const {
+    createOrUpdateInvoice,
+    getAllInvoices,
+    getInvoice,
+    updateInvoiceEmailSentStatus,
+    archiveInvoice,
+    getNextBillNumber,
+} = require("./api/invoices");
 const { getDashboardStats } = require("./api/dashboard");
 
 function connectToDB() {
@@ -35,5 +42,6 @@ module.exports = {
     updateInvoiceEmailSentStatus,
     getInvoice,
     getDashboardStats,
+    getNextBillNumber,
     mongoose,
 };

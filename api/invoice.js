@@ -21,7 +21,15 @@ router.get("/list/all", checkAuth, async (req, res, next) => {
         message,
     });
 });
-
+router.get("/new/number", checkAuth, async (req, res, next) => {
+    const { data, error, success, message } = await db.getNextBillNumber();
+    res.send({
+        data,
+        error,
+        success,
+        message,
+    });
+});
 router.get("/:invoiceNumber", checkAuth, async (req, res, next) => {
     const { invoiceNumber } = req.params;
     const { data, error, message, success } = await db.getInvoice(invoiceNumber);

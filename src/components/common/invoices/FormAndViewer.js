@@ -115,7 +115,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
                 setSendError(message);
             } else {
                 if (!invoiceId) {
-                    history.replace("/");
+                    history.replace("/invoice");
                 } else {
                     notification.success("Updated Bill successfully");
                 }
@@ -166,11 +166,25 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
         }
     }, [invoiceId]);
 
+    const fetchAndSetNextInvoiceNumber = useCallback(async () => {
+        const res = await fetch(`${baseUrl}/api/v1/invoice/new/number`, { headers: getHeaders() });
+        const { data, error, message } = await res.json();
+        if (error) {
+            console.log(message);
+            notification.error(`App not working - call Rory`);
+            return;
+        } else {
+            setInvoiceNumber(data.id);
+        }
+    }, [notification]);
+
     useEffect(() => {
         if (invoiceId) {
             fetchInvoices();
+        } else {
+            fetchAndSetNextInvoiceNumber();
         }
-    }, [fetchInvoices, invoiceId]);
+    }, [fetchInvoices, invoiceId, fetchAndSetNextInvoiceNumber]);
 
     const downloadPDF = () => {
         console.log("downloading pdf");
@@ -362,6 +376,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
                             value={invoiceNumber}
                             handleChange={(e) => setInvoiceNumber(e.target.value)}
                             positioningClasses="w-20"
+                            disabled
                         />
                         <div className="ml-1">
                             <p className="light-text label">Rechnungsdatum</p>

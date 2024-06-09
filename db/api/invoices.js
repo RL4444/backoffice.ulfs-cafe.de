@@ -151,6 +151,56 @@ const createOrUpdateInvoice = async (invoiceItem) => {
     }
 };
 
+const getNextBillNumber = async () => {
+    try {
+        const aggregateArray = [
+            { $sort: { invoiceDate: -1 } },
+            {
+                $project: {
+                    invoiceNumber: "$invoiceNumber",
+                    invoiceDate: "$invoiceDate",
+                    customer: "$customer",
+                    eventDate: "$eventDate",
+                    eventType: "$eventType",
+                    peopleNumber: "$peopleNumber",
+                    serviceItems: "$serviceItems",
+                    vatCharged: "$vatCharged",
+                    paidStatus: "$paidStatus",
+                    billSent: "$billSent",
+                    lastUpdated: "$lastUpdated",
+                    archived: "$archived",
+                },
+            },
+            { $limit: 1 },
+        ];
+
+        const result = await Invoices.aggregate(aggregateArray);
+        const latestBill = result[0];
+        const thisYear = `${new Date().getFullYear()}`.slice(-2);
+        let newNumber = `1${thisYear}`;
+
+        if (`${thisYear.slice(-2)}` === `${latestBill.invoiceNumber.slice(-2)}`) {
+            newNumber = `${Number(latestBill.invoiceNumber.slice(0, -2)) + 1}${thisYear}`;
+        } else {
+        }
+        console.log("in be ", { newNumber });
+
+        return {
+            data: { id: newNumber },
+            success: true,
+            error: false,
+            message: "success",
+        };
+    } catch (err) {
+        return {
+            data: null,
+            success: false,
+            error: true,
+            message: "Error: " + err,
+        };
+    }
+};
+
 const updateInvoiceEmailSentStatus = async (invoiceId) => {
     try {
         const result = await Invoices.findOneAndUpdate(
@@ -185,4 +235,5 @@ module.exports = {
     updateInvoiceEmailSentStatus,
     getInvoice,
     createOrUpdateInvoice,
+    getNextBillNumber,
 };
