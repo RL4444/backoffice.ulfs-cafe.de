@@ -11,8 +11,8 @@ router.get("/list/all", checkAuth, async (req, res, next) => {
         query,
         limit,
         start,
-        isPaid: isPaid === "true",
-        isSent: isSent === "true",
+        isPaid: isPaid === "true" ? true : isPaid === "false" ? false : null,
+        isSent: isSent === "true" ? true : isSent === "false" ? false : null,
     });
     res.send({
         data,
