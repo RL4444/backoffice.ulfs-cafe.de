@@ -5,12 +5,9 @@ import { Logout } from "../../pages/Login";
 import Button from "./Buttons";
 
 import CafeLogo from "../../images/cafelogo.png";
-import { getHeaders } from "../../api";
 
 import { HiOutlineDocumentText, HiOutlineUsers, HiOutlineCog, HiArrowRight, HiArrowLeft, HiHome } from "react-icons/hi";
 import "./Navbar.css";
-
-const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 const Navbar = () => {
     const [shouldLogUserOut, setShouldLogUserOut] = useState(false);
