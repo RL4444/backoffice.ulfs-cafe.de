@@ -50,7 +50,7 @@ const Invoices = () => {
             <main className="page-wrapper">
                 <div className="d-flex ai-c ">
                     <h1 className="title">Rechnungen</h1>
-                    <div className="ml-1 pt-1">
+                    <div className="ml-1 pt-1 d-flex ai-c gap-large">
                         <Button
                             hrefTo={"/invoice/new/create"}
                             text={"Neue Rechnung"}
@@ -59,6 +59,14 @@ const Invoices = () => {
                             type="confirm"
                             icon={<HiOutlinePlusSm />}
                         />
+                        {/* <Button
+                            hrefTo={"/invoice/new/offer"}
+                            text={"Angebot"}
+                            role="link"
+                            disbaled={false}
+                            type="hollow"
+                            icon={<HiOutlinePlusSm />}
+                        /> */}
                     </div>
                 </div>
                 <div className="card-border mt-3" style={{ maxWidth: 1100, minWidth: "min-content" }}>
@@ -75,8 +83,18 @@ const Invoices = () => {
                             handleSentStatusFilter={(value) => setSentStatus(value)}
                         />
                     </div>
-                    <div className="bg-white pt-2 pb-3">
+                    <div className="bg-white pt-2 pb-2">
                         <Table items={invoices} loading={loading} />
+                        <div className="mt-2 d-flex jc-fe pr-2">
+                            <Button
+                                hrefTo={"/invoice/new/create"}
+                                text={"Neue Rechnung"}
+                                role="link"
+                                disbaled={false}
+                                type="confirm"
+                                icon={<HiOutlinePlusSm />}
+                            />
+                        </div>
                     </div>
                 </div>
             </main>

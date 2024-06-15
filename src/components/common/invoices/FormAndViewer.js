@@ -495,6 +495,8 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
                                             label={"Einzelpreis"}
                                             value={eachItem.price}
                                             inputType="number"
+                                            hideControls
+                                            isMoney
                                             handleChange={(e) => handleItemUpdate(index, "price", e.target.value)}
                                         />
                                         <strong style={{ width: 80 }} className="ml-1 ta-r">
