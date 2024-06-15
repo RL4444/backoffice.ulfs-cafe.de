@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
 
@@ -11,10 +11,15 @@ const cookies = new Cookies();
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 export const Logout = () => {
-    console.log("logging out");
-    cookies.remove("TOKEN", { path: "/" });
-    localStorage.clear();
-    return <Redirect to="/login" />;
+    const [isReady, setIsReady] = useState(false);
+    useEffect(() => {
+        console.log("logging out");
+        cookies.remove("TOKEN", { path: "/" });
+        localStorage.removeItem("jwtUlf");
+        console.log("here?");
+        setIsReady(true);
+    }, [setIsReady, isReady]);
+    return <>{isReady && <Redirect to="/login" />}</>;
 };
 
 const Login = () => {

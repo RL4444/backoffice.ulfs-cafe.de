@@ -26,11 +26,6 @@ const Navbar = () => {
     };
 
     const logout = async () => {
-        await fetch(`${baseUrl}/api/v1/user/logout`, {
-            method: "POST",
-            headers: getHeaders(),
-        });
-
         setShouldLogUserOut(true);
     };
 
