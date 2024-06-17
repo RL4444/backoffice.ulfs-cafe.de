@@ -26,9 +26,9 @@ const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 registerLocale("de", de);
 
 const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
-    console.log({ type });
     const history = useHistory();
     const notification = useContext(NotificationContext);
+    const invoiceType = type ? type : invoiceId.indexOf("offer") > -1 ? "offer" : "invoice";
 
     const [documentLoaded, setDocumentLoaded] = useState(false);
     const [sendError, setSendError] = useState(null);
@@ -168,7 +168,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
     }, [invoiceId]);
 
     const fetchAndSetNextInvoiceNumber = useCallback(async () => {
-        const res = await fetch(`${baseUrl}/api/v1/invoice/new/number?type=${type}`, { headers: getHeaders() });
+        const res = await fetch(`${baseUrl}/api/v1/invoice/new/number?type=${invoiceType}`, { headers: getHeaders() });
         // const test = await res.json();
         // console.log({ test });
         const { data, error, message } = await res.json();
@@ -179,7 +179,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
         } else {
             setInvoiceNumber(data.id);
         }
-    }, [notification, type]);
+    }, [notification, invoiceType]);
 
     useEffect(() => {
         if (invoiceId) {
@@ -237,6 +237,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                 address={customer.address}
                 invoiceNumber={invoiceNumber}
                 peopleNumber={peopleNumber}
+                type={invoiceType}
                 eventType={eventType}
                 eventKeyword={eventKeyword}
                 eventDate={moment(eventDate).format("DD.MM.yyyy")}
@@ -306,6 +307,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
         notification,
         peopleNumber,
         eventKeyword,
+        invoiceType,
     ]);
 
     useEffect(() => {
@@ -322,6 +324,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                     <div className="display-none">
                         <PlainHTMLPDF
                             ref={printRef}
+                            type={invoiceType}
                             customerName={customer.contactName}
                             companyName={customer.companyName}
                             address={customer.address}
@@ -372,17 +375,17 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                             />
                         </div>
                     </div>
-                    <h2 className="subheadline mt-2">Rechnungsinformationen</h2>
+                    <h2 className="subheadline mt-2">{invoiceType === "invoice" ? "Rechnungsinformationen" : "Angebotsinformationen"}</h2>
                     <div className="d-flex mt-1">
                         <Field
-                            label={"Rechnungsnummer"}
+                            label={invoiceType === "invoice" ? "Rechnungsnummer" : "Angebotsnummer"}
                             value={invoiceNumber}
                             handleChange={(e) => setInvoiceNumber(e.target.value)}
                             positioningClasses="w-20"
                             disabled
                         />
                         <div className="ml-1">
-                            <p className="light-text label">Rechnungsdatum</p>
+                            <p className="light-text label">{invoiceType === "invoice" ? "Rechnungsdatum" : "Angebotsdatum"}</p>
                             <DatePicker
                                 selected={invoiceDate}
                                 onChange={(date) => setInvoiceDate(date)}
@@ -391,19 +394,21 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                 wrapperClassName="date-picker-override"
                             />
                         </div>
-                        <div className="ml-1">
-                            <p className="light-text label">USt.</p>
-                            <Select
-                                onSelect={(value) => setVatCharged(value)}
-                                value={vatCharged}
-                                options={[
-                                    { value: "19% Incl. USt." },
-                                    { value: "7% Incl. USt." },
-                                    { value: "19% Excl. USt." },
-                                    { value: "7% Excl. USt." },
-                                ]}
-                            />
-                        </div>
+                        {invoiceType === "invoice" ? (
+                            <div className="ml-1">
+                                <p className="light-text label">USt.</p>
+                                <Select
+                                    onSelect={(value) => setVatCharged(value)}
+                                    value={vatCharged}
+                                    options={[
+                                        { value: "19% Incl. USt." },
+                                        { value: "7% Incl. USt." },
+                                        { value: "19% Excl. USt." },
+                                        { value: "7% Excl. USt." },
+                                    ]}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                     <h2 className="mt-2 subheadline">Event-Informationen</h2>
                     <div className="d-flex mt-1">
@@ -541,6 +546,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                     style={{ width: "360px", height: "460px", background: "transparent", border: "none" }}
                                 >
                                     <InvoicePDF
+                                        type={invoiceType}
                                         customerName={customer.contactName}
                                         companyName={customer.companyName}
                                         address={customer.address}
@@ -576,6 +582,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                             taxAmount={taxCategories[vatCharged].taxAmount(getCurrentTotal())}
                                             totalAfterTax={taxCategories[vatCharged].calculateFinal(getCurrentTotal())}
                                             invoiceDate={moment(invoiceDate).format("DD.MM.yyyy")}
+                                            type={invoiceType}
                                         />
                                     }
                                     fileName={`${invoiceNumber}_${customer.companyName}.pdf`}

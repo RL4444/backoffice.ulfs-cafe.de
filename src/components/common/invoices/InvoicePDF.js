@@ -91,6 +91,7 @@ class InvoicePDF extends React.Component {
             peopleNumber,
             totalAfterTax,
             invoiceDate,
+            type = "invoice", // or offer
         } = this.props;
         return (
             <Document>
@@ -113,24 +114,63 @@ class InvoicePDF extends React.Component {
                                     </Text>
                                 );
                             })}
-                        <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 30, fontSize: "12px" }}>
-                            Rechnung Nr: {invoiceNumber}
-                        </Text>
-                        <Text style={{ fontFamily: "InterRegular", marginTop: 12, fontSize: "12px" }}>
-                            {eventType} am {eventDate}
-                        </Text>
+                        {type === "invoice" ? (
+                            <>
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 30, fontSize: "12px" }}>
+                                    Rechnung Nr: {invoiceNumber}
+                                </Text>
 
-                        <Text style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px" }}>Personenzahl: {peopleNumber}</Text>
-                        {eventKeyword && <Text style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px" }}>{eventKeyword}</Text>}
+                                <Text style={{ fontFamily: "InterRegular", marginTop: 12, fontSize: "12px" }}>
+                                    {eventType} am {eventDate}
+                                </Text>
 
-                        <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 40, fontSize: "12px" }}>
-                            Sehr geehrte Damen und Herren
-                        </Text>
-                        <Text
-                            style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px", whiteSpace: "nowrap", wordBreak: "none" }}
-                        >
-                            Für o.g. Leistung erlauben wir uns wie folgt zu <br /> berechnen:
-                        </Text>
+                                <Text style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px" }}>
+                                    Personenzahl: {peopleNumber}
+                                </Text>
+                                {eventKeyword && (
+                                    <Text style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px" }}>{eventKeyword}</Text>
+                                )}
+
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 40, fontSize: "12px" }}>
+                                    Sehr geehrte Damen und Herren
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontFamily: "InterRegular",
+                                        marginTop: 4,
+                                        fontSize: "12px",
+                                        whiteSpace: "nowrap",
+                                        wordBreak: "none",
+                                    }}
+                                >
+                                    Für o.g. Leistung erlauben wir uns wie folgt zu <br /> berechnen:
+                                </Text>
+                            </>
+                        ) : (
+                            <>
+                                <Text style={{ fontFamily: "InterRegular", marginTop: 24, fontSize: "12px" }}>
+                                    Angebot für {eventType} am {eventDate}
+                                </Text>
+
+                                <Text style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px" }}>
+                                    Personenzahl: {peopleNumber}
+                                </Text>
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 40, fontSize: "12px" }}>
+                                    Sehr geehrte Damen und Herren,
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontFamily: "InterRegular",
+                                        marginTop: 4,
+                                        fontSize: "12px",
+                                        whiteSpace: "nowrap",
+                                        wordBreak: "none",
+                                    }}
+                                >
+                                    wir bieten Ihnen zu Ihrer Anfrage folgende Preise an:
+                                </Text>
+                            </>
+                        )}
 
                         <View style={{ display: "flex", marginTop: 40, flexDirection: "row" }}>
                             <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 150, fontSize: "13px" }}>Artikel</Text>
@@ -185,28 +225,47 @@ class InvoicePDF extends React.Component {
                             <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>Gesamtsumme Netto</Text>
                             <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>{totalNet}&nbsp;€</Text>
                         </View>
-                        <View
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                marginTop: 6,
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <Text style={{ fontFamily: "InterRegular", fontSize: "12px" }}>Zzgl. {tax}</Text>
-                            <Text style={{ fontFamily: "InterRegular", fontSize: "12px" }}>{taxAmount}&nbsp;€</Text>
-                        </View>
+                        {type === "invoice" ? (
+                            <>
+                                <View
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        marginTop: 6,
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    <Text style={{ fontFamily: "InterRegular", fontSize: "12px" }}>Zzgl. {tax}</Text>
+                                    <Text style={{ fontFamily: "InterRegular", fontSize: "12px" }}>{taxAmount}&nbsp;€</Text>
+                                </View>
 
-                        <View style={{ display: "flex", flexDirection: "row", marginTop: 36, alignItems: "center" }}>
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>Gesamtsumme</Text>
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginLeft: "auto", fontSize: "12px" }}>
-                                {totalAfterTax}&nbsp;€
+                                <View style={{ display: "flex", flexDirection: "row", marginTop: 36, alignItems: "center" }}>
+                                    <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>Gesamtsumme</Text>
+                                    <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginLeft: "auto", fontSize: "12px" }}>
+                                        {totalAfterTax}&nbsp;€
+                                    </Text>
+                                </View>
+                            </>
+                        ) : null}
+                        {type === "invoice" ? (
+                            <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
+                                Bitte begleichen Sie den Rechnungsbetrag innerhalb von 14 Tagen.
                             </Text>
-                        </View>
-                        <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
-                            Bitte begleichen Sie den Rechnungsbetrag innerhalb von 14 Tagen.
-                        </Text>
+                        ) : (
+                            <>
+                                <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
+                                    Die im Angebot dargestellten Preise verstehen sich exklusive der gesetzlichen Umsatzsteuer.
+                                </Text>
+                                <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "8px" }}>
+                                    Bei Fragen, Anmerkungen oder jeglichen Änderungswünschen, zögern Sie nicht, sich telefonisch oder per
+                                    E-Mail mit und in Verbindung zu setzen.
+                                </Text>
+                                <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "8px" }}>
+                                    Dieses Angebot hat eine Gültigkeit von 3 Wochen ab Empfangsdatum.
+                                </Text>
+                            </>
+                        )}
                     </View>
 
                     <View style={styles.columnRight}>
@@ -262,6 +321,7 @@ export class PlainHTMLPDF extends React.PureComponent {
             totalAfterTax,
             peopleNumber,
             invoiceDate,
+            type = "invoice",
         } = this.props;
         return (
             <section style={styles.printwrapper} className="print-pdf-doc">
@@ -283,21 +343,38 @@ export class PlainHTMLPDF extends React.PureComponent {
                                 </p>
                             );
                         })}
-                    <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginTop: 30, fontSize: "16px" }}>
-                        Rechnung Nr: {invoiceNumber}
-                    </p>
-                    <p style={{ fontFamily: "sans-serif", marginTop: 6, fontSize: "16px" }}>
-                        {eventType} am {eventDate}
-                    </p>
-                    <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>Personenzahl: {peopleNumber}</p>
-                    {eventKeyword && <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>{eventKeyword}</p>}
-                    <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginTop: 40, fontSize: "16px" }}>
-                        Sehr geehrte Damen und Herren
-                    </p>
-                    <p style={{ fontFamily: "sans-serif", marginTop: 4, fontSize: "16px" }}>
-                        Für o.g. Leistung erlauben wir uns wie folgt zu <br /> berechnen:
-                    </p>
-
+                    <>
+                        {type === "invoice" ? (
+                            <>
+                                <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginTop: 30, fontSize: "16px" }}>
+                                    Rechnung Nr: {invoiceNumber}
+                                </p>
+                                <p style={{ fontFamily: "sans-serif", marginTop: 6, fontSize: "16px" }}>
+                                    {eventType} am {eventDate}
+                                </p>
+                                <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>Personenzahl: {peopleNumber}</p>
+                                {eventKeyword && <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>{eventKeyword}</p>}
+                                <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginTop: 40, fontSize: "16px" }}>
+                                    Sehr geehrte Damen und Herren
+                                </p>
+                                <p style={{ fontFamily: "sans-serif", marginTop: 4, fontSize: "16px" }}>
+                                    Für o.g. Leistung erlauben wir uns wie folgt zu <br /> berechnen:
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p style={{ fontFamily: "sans-serif", marginTop: 6, fontSize: "24px" }}>
+                                    Angebot für {eventType} am {eventDate}
+                                </p>
+                                <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginTop: 40, fontSize: "16px" }}>
+                                    Sehr geehrte Damen und Herren,
+                                </p>
+                                <p style={{ fontFamily: "sans-serif", marginTop: 4, fontSize: "16px" }}>
+                                    wir bieten Ihnen zu Ihrer Anfrage folgende Preise an:
+                                </p>
+                            </>
+                        )}
+                    </>
                     <div style={{ display: "flex", marginTop: 40, flexDirection: "row" }}>
                         <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 150, fontSize: "15px" }}>Artikel</p>
                         <p style={{ fontFamily: "sans-serif", fontWeight: "bold", width: 60, fontSize: "15px" }}>Anzahl</p>
@@ -306,7 +383,6 @@ export class PlainHTMLPDF extends React.PureComponent {
                             Gesamt
                         </p>
                     </div>
-
                     {serviceItems.length > 0 &&
                         serviceItems.map((eachServiceItem, index) => {
                             return (
@@ -343,7 +419,6 @@ export class PlainHTMLPDF extends React.PureComponent {
                                 </div>
                             );
                         })}
-
                     <div
                         style={{
                             marginTop: 36,
@@ -356,28 +431,50 @@ export class PlainHTMLPDF extends React.PureComponent {
                         <p style={{ fontFamily: "sans-serif", fontWeight: "bold", fontSize: "16px" }}>Gesamtsumme Netto</p>
                         <p style={{ fontFamily: "sans-serif", fontWeight: "bold", fontSize: "16px" }}>{totalNet}&nbsp;€</p>
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            marginTop: 6,
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>Zzgl. {tax}</p>
-                        <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>{taxAmount}&nbsp;€</p>
-                    </div>
-
-                    <div style={{ display: "flex", flexDirection: "row", marginTop: 36, alignItems: "center", marginBottom: "12px" }}>
-                        <p style={{ fontFamily: "sans-serif", fontWeight: "bold", fontSize: "16px" }}>Gesamtsumme</p>
-                        <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginLeft: "auto", fontSize: "16px" }}>
-                            {totalAfterTax}&nbsp;€
-                        </p>
-                    </div>
-                    <p style={{ fontFamily: "sans-serif", fontSize: "16px", marginTop: "auto" }}>
-                        Bitte begleichen Sie den Rechnungsbetrag innerhalb von 14 Tagen.
-                    </p>
+                    {type === "invoice" ? (
+                        <>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    marginTop: 6,
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>Zzgl. {tax}</p>
+                                <p style={{ fontFamily: "sans-serif", fontSize: "16px" }}>{taxAmount}&nbsp;€</p>
+                            </div>
+                            <div
+                                style={{ display: "flex", flexDirection: "row", marginTop: 36, alignItems: "center", marginBottom: "12px" }}
+                            >
+                                <p style={{ fontFamily: "sans-serif", fontWeight: "bold", fontSize: "16px" }}>Gesamtsumme</p>
+                                <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginLeft: "auto", fontSize: "16px" }}>
+                                    {totalAfterTax}&nbsp;€
+                                </p>
+                            </div>
+                        </>
+                    ) : null}
+                    {type === "invoice" ? (
+                        <>
+                            <p style={{ fontFamily: "sans-serif", fontSize: "16px", marginTop: "auto" }}>
+                                Bitte begleichen Sie den Rechnungsbetrag innerhalb von 14 Tagen.
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <p style={{ fontFamily: "sans-serif", fontSize: "16px", marginTop: "auto" }}>
+                                Die im Angebot dargestellten Preise verstehen sich exklusive der gesetzlichen Umsatzsteuer.
+                            </p>
+                            <p style={{ fontFamily: "sans-serif", fontSize: "16px", marginTop: "4px" }}>
+                                Bei Fragen, Anmerkungen oder jeglichen Änderungswünschen, zögern Sie nicht, sich telefonisch oder per E-Mail
+                                mit und in Verbindung zu setzen.
+                            </p>
+                            <p style={{ fontFamily: "sans-serif", fontSize: "16px", marginTop: "4px" }}>
+                                Dieses Angebot hat eine Gültigkeit von 3 Wochen ab Empfangsdatum.
+                            </p>
+                        </>
+                    )}
                 </div>
 
                 <div style={styles.printcolumnRight}>

@@ -43,6 +43,7 @@ const Invoice = ({ match }) => {
     const notification = useContext(NotificationContext);
 
     const { invoiceNumber } = match.params;
+    const invoiceType = invoiceNumber.indexOf("offer") > -1 ? "offer" : "invoice";
     const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
     const [deleteError, setDeleteError] = useState(null);
 
@@ -103,7 +104,9 @@ const Invoice = ({ match }) => {
         <>
             <Navbar />
             <main className="page-wrapper">
-                <h1 className="title">Rechnung {invoiceNumber}</h1>
+                <h1 className="title">
+                    {invoiceType === "invoice" ? "Rechnung" : "Angebot"} {invoiceNumber}
+                </h1>
                 <UtilButtons handlePrint={handlePrint} handleSave={handleSave} handleDelete={initDelete} handleEmail={handleEmail} />
                 <FormAndViewer invoiceId={invoiceNumber} printRef={printRef} emailRef={emailRef} saveRef={saveRef} />
                 {deleteError && <p className="text-red mt-1 ta-c">{deleteError}</p>}
