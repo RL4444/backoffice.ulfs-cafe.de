@@ -25,7 +25,8 @@ import "./form.css";
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 registerLocale("de", de);
 
-const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
+const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
+    console.log({ type });
     const history = useHistory();
     const notification = useContext(NotificationContext);
 
@@ -167,7 +168,9 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
     }, [invoiceId]);
 
     const fetchAndSetNextInvoiceNumber = useCallback(async () => {
-        const res = await fetch(`${baseUrl}/api/v1/invoice/new/number`, { headers: getHeaders() });
+        const res = await fetch(`${baseUrl}/api/v1/invoice/new/number?type=${type}`, { headers: getHeaders() });
+        // const test = await res.json();
+        // console.log({ test });
         const { data, error, message } = await res.json();
         if (error) {
             console.log(message);
@@ -176,7 +179,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef }) => {
         } else {
             setInvoiceNumber(data.id);
         }
-    }, [notification]);
+    }, [notification, type]);
 
     useEffect(() => {
         if (invoiceId) {

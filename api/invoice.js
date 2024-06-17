@@ -5,7 +5,7 @@ const checkAuth = require("../middleware/checkAuth");
 const { sendMail } = require("../mailer/sendMail");
 
 router.get("/list/all", checkAuth, async (req, res, next) => {
-    const { order, query, limit, start, isPaid, isSent } = req.query;
+    const { order, query, limit, start, isPaid, isSent, billsOnly } = req.query;
     const { data, error, success, message } = await db.getAllInvoices({
         order,
         query,
@@ -13,6 +13,7 @@ router.get("/list/all", checkAuth, async (req, res, next) => {
         start,
         isPaid: isPaid === "true" ? true : isPaid === "false" ? false : null,
         isSent: isSent === "true" ? true : isSent === "false" ? false : null,
+        billsOnly: billsOnly === "true" ? true : billsOnly === "false" ? false : null,
     });
     res.send({
         data,
@@ -22,7 +23,8 @@ router.get("/list/all", checkAuth, async (req, res, next) => {
     });
 });
 router.get("/new/number", checkAuth, async (req, res, next) => {
-    const { data, error, success, message } = await db.getNextBillNumber();
+    const { type } = req.query;
+    const { data, error, success, message } = await db.getNextBillNumber(type);
     res.send({
         data,
         error,

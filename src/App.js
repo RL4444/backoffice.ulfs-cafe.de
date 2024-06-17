@@ -21,7 +21,7 @@ function App() {
                     <PrivateRoute exact path="/customers/new/create" component={NewCustomer} />
                     <PrivateRoute exact path="/customers" component={Customers} />
                     <PrivateRoute exact path="/invoice/:invoiceNumber/" component={Invoice} />
-                    <PrivateRoute exact path="/invoice/new/create" component={NewInvoice} />
+                    <PrivateRoute exact path="/invoice/new/:type" component={NewInvoice} />
                     <PrivateRoute exact path="/invoice/" component={Invoices} />
                     <PrivateRoute exact path="/" component={Dashboard} />
                     <Route exact path="/login" component={Login} />

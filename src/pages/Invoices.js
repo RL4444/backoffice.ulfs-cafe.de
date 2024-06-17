@@ -16,16 +16,21 @@ const Invoices = () => {
     const [requestError, setRequestError] = useState(null);
     const [paidStatus, setPaidStatus] = useState("Bezahlt Status");
     const [sentStatus, setSentStatus] = useState("Geschickt Status");
+    const [isInvoice, setIsInvoice] = useState(true);
 
     const fetchInvoices = useCallback(async () => {
         setLoading(true);
         try {
             const sentStatusBool = sentStatus === "geschickt" ? true : sentStatus === "nicht geschickt" ? false : null;
             const paidStatusBool = paidStatus === "bezahlt" ? true : paidStatus === "nicht bezahlt" ? false : null;
+            const billsOnly = isInvoice;
 
-            const res = await fetch(`${baseUrl}/api/v1/invoice/list/all?isPaid=${paidStatusBool}&isSent=${sentStatusBool}`, {
-                headers: getHeaders(),
-            });
+            const res = await fetch(
+                `${baseUrl}/api/v1/invoice/list/all?isPaid=${paidStatusBool}&isSent=${sentStatusBool}&billsOnly=${billsOnly}`,
+                {
+                    headers: getHeaders(),
+                }
+            );
             const { data, error, message } = await res.json();
 
             if (error) {
@@ -38,11 +43,11 @@ const Invoices = () => {
         } finally {
             setLoading(false);
         }
-    }, [paidStatus, sentStatus]);
+    }, [paidStatus, sentStatus, isInvoice]);
 
     useEffect(() => {
         fetchInvoices();
-    }, [fetchInvoices, paidStatus, sentStatus]);
+    }, [fetchInvoices, paidStatus, sentStatus, isInvoice]);
 
     return (
         <>
@@ -52,21 +57,21 @@ const Invoices = () => {
                     <h1 className="title">Rechnungen</h1>
                     <div className="ml-1 pt-1 d-flex ai-c gap-large">
                         <Button
-                            hrefTo={"/invoice/new/create"}
+                            hrefTo={"/invoice/new/invoice"}
                             text={"Neue Rechnung"}
                             role="link"
                             disbaled={false}
                             type="confirm"
                             icon={<HiOutlinePlusSm />}
                         />
-                        {/* <Button
+                        <Button
                             hrefTo={"/invoice/new/offer"}
                             text={"Angebot"}
                             role="link"
                             disbaled={false}
                             type="hollow"
                             icon={<HiOutlinePlusSm />}
-                        /> */}
+                        />
                     </div>
                 </div>
                 <div className="card-border mt-3" style={{ maxWidth: 1100, minWidth: "min-content" }}>
@@ -79,21 +84,34 @@ const Invoices = () => {
                         <TableFilters
                             paidStatus={paidStatus}
                             sentStatus={sentStatus}
+                            isInvoice={isInvoice}
                             handlePaidStatusFilter={(value) => setPaidStatus(value)}
                             handleSentStatusFilter={(value) => setSentStatus(value)}
+                            toggleInvoiceType={() => setIsInvoice(!isInvoice)}
                         />
                     </div>
                     <div className="bg-white pt-2 pb-2">
                         <Table items={invoices} loading={loading} />
                         <div className="mt-2 d-flex jc-fe pr-2">
-                            <Button
-                                hrefTo={"/invoice/new/create"}
-                                text={"Neue Rechnung"}
-                                role="link"
-                                disbaled={false}
-                                type="confirm"
-                                icon={<HiOutlinePlusSm />}
-                            />
+                            {isInvoice ? (
+                                <Button
+                                    hrefTo={"/invoice/new/invoice"}
+                                    text={"Neue Rechnung"}
+                                    role="link"
+                                    disbaled={false}
+                                    type="confirm"
+                                    icon={<HiOutlinePlusSm />}
+                                />
+                            ) : (
+                                <Button
+                                    hrefTo={"/invoice/new/offer"}
+                                    text={"Angebot"}
+                                    role="link"
+                                    disbaled={false}
+                                    type="hollow"
+                                    icon={<HiOutlinePlusSm />}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

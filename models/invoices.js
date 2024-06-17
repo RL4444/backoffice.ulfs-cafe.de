@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const InvoicesSchema = new Schema({
     invoiceNumber: { type: String, unique: true, required: true },
     invoiceDate: { type: Date, required: true, default: new Date().toUTCString },
+    invoiceType: { type: String, enum: ["invoice", "offer"], required: true, default: "invoice" }, // invoice or offer
     customer: { type: Object, required: true }, // make this a type of Customer model entry liink
     eventKeyword: { type: String, required: true, default: "" },
     eventDate: { type: Date, required: true },

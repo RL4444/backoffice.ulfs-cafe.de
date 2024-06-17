@@ -9,8 +9,6 @@ import InterRegular from "../../../fonts/Inter-Regular.ttf";
 Font.register({ family: "InterRegular", fonts: [{ src: InterRegular, fontWeight: "normal" }] });
 Font.register({ family: "InterSemiBold", fonts: [{ src: InterSemiBold, fontWeight: "bold" }] });
 
-const imgSrc = process.env.NODE_ENV === "production" ? "./build/images/cafelogo.png" : "../../../images/cafelogo.png";
-
 const styleNodes = {
     printwrapper: {
         margin: 0,
