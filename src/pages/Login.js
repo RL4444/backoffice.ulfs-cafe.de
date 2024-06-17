@@ -13,10 +13,8 @@ const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 export const Logout = () => {
     const [isReady, setIsReady] = useState(false);
     useEffect(() => {
-        console.log("logging out");
         cookies.remove("TOKEN", { path: "/" });
         localStorage.removeItem("jwtUlf");
-        console.log("here?");
         setIsReady(true);
     }, [setIsReady, isReady]);
     return <>{isReady && <Redirect to="/login" />}</>;

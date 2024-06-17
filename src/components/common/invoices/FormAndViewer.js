@@ -126,6 +126,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
         [
             invoiceNumber,
             invoiceDate,
+            invoiceType,
             customer,
             eventDate,
             eventType,
@@ -170,8 +171,6 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
 
     const fetchAndSetNextInvoiceNumber = useCallback(async () => {
         const res = await fetch(`${baseUrl}/api/v1/invoice/new/number?type=${invoiceType}`, { headers: getHeaders() });
-        // const test = await res.json();
-        // console.log({ test });
         const { data, error, message } = await res.json();
         if (error) {
             console.log(message);

@@ -193,7 +193,6 @@ const getNextBillNumber = async (type = "invoice") => {
             { $limit: 1 },
         ];
         const result = await Invoices.aggregate(aggregateArray);
-        console.log({ result });
         const latestBill = result[0];
         const thisYear = `${new Date().getFullYear()}`.slice(-2);
 
