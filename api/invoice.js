@@ -24,6 +24,7 @@ router.get("/list/all", checkAuth, async (req, res, next) => {
 });
 router.get("/new/number", checkAuth, async (req, res, next) => {
     const { type } = req.query;
+    console.log({ type });
     const { data, error, success, message } = await db.getNextBillNumber(type);
     res.send({
         data,

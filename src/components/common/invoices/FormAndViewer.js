@@ -88,6 +88,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
             const invoicePayload = {
                 invoiceNumber,
                 invoiceDate,
+                invoiceType,
                 customer,
                 eventDate,
                 eventType,
