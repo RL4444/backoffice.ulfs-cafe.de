@@ -270,6 +270,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                         type: eventType,
                         invoiceId: invoiceNumber,
                     },
+                    type: invoiceType,
                     fileName: pdfName,
                     fileUrl: url,
                     buffer,

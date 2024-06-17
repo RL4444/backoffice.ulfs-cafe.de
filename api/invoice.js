@@ -74,6 +74,7 @@ router.post("/email-customer", checkAuth, async (req, res, next) => {
         pdfStream: email.blob,
         pdfBuffer: Buffer.from(email.buffer),
         fileName: email.fileName,
+        type: email.type,
     });
 
     res.send({

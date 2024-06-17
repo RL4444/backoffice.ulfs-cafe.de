@@ -4,9 +4,23 @@ require("dotenv").config();
 
 const { updateInvoiceEmailSentStatus } = require("../db/api/invoices");
 
-const billTemplate = ({ name, eventDate, addtionalNotes }) => `
-    <div>
+// Moin {Name},
 
+// vielen Dank für Ihre Anfrage.
+
+// Im Anhang finden Sie das dazugehörige Angebot.
+
+// Löchern Sie uns gern mit Fragen, Anmerkungen oder Wünschen!
+
+// Wir freuen uns auf Ihre Rückmeldung.
+
+// Beste Grüße
+// Ulf Hansen
+
+const billTemplate = ({ name, eventDate, addtionalNotes, type = "invoice" }) =>
+    type === "invoice"
+        ? `
+    <div>
         <p>
         Moin ${name},
         </p> 
@@ -46,7 +60,28 @@ const billTemplate = ({ name, eventDate, addtionalNotes }) => `
         Ulf Hansen
        </p>
     </div>
-`;
+`
+        : ` <div>
+        <p>
+        Moin ${name},
+        </p> 
+        <p>
+        vielen Dank für Ihre Anfrage. 
+        </p>
+        <p>
+        Im Anhang finden Sie das dazugehörige Angebot.  
+        </p>
+        <p>
+        Löchern Sie uns gern mit Fragen, Anmerkungen oder Wünschen!
+        </p>
+        <br>
+        Wir freuen uns auf Ihre Rückmeldung.
+        <br>
+        <br>
+        Beste Grüße
+        Ulf Hansen
+       </p>
+    </div>`;
 
 const transporterObjectConfig = nodemailer.createTransport({
     host: "mail.gmx.net",
@@ -59,18 +94,22 @@ const transporterObjectConfig = nodemailer.createTransport({
     },
 });
 
-const sendMail = async ({ customer, event, pdfBuffer, fileName }) => {
+const sendMail = async ({ customer, event, pdfBuffer, fileName, type }) => {
     try {
         const mailOptions = {
             from: process.env.GMX_USER, // sender address
             to: customer.email, // list of receivers seperated by comma
             bcc: "ulf.hansen1@gmx.de",
-            subject: `Rechnung ${event.invoiceId} ${event.type || "Leistung"} am ${moment(event.date).format("DD.MM.yyyy")}`, // Subject line
+            subject:
+                type === "offer"
+                    ? `Angebot für ${event.type || "Leistung"} am ${moment(event.date).format("DD.MM.yyyy")}`
+                    : `Rechnung ${event.invoiceId} ${event.type || "Leistung"} am ${moment(event.date).format("DD.MM.yyyy")}`, // Subject line
             html: billTemplate({
                 name: customer.contactName,
                 eventDate: event.date,
                 eventType: event.type,
                 addtionalNotes: event.addtionalNotes,
+                type,
             }),
 
             attachments: [
