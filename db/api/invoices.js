@@ -167,7 +167,7 @@ const createOrUpdateInvoice = async (invoiceItem) => {
 const getNextBillNumber = async (type = "invoice") => {
     try {
         const aggregateArray = [
-            { $sort: { invoiceDate: -1 } },
+            { $sort: { invoiceNumber: -1 } },
             {
                 $project: {
                     invoiceNumber: "$invoiceNumber",
