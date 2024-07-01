@@ -55,7 +55,7 @@ const Customers = () => {
                     {customers.length > 0 &&
                         customers.map((customer) => {
                             return (
-                                <Link to={`customers/${customer.email}`} key={customer.email}>
+                                <Link to={`customers/${encodeURIComponent(customer.email)}`} key={customer.email}>
                                     <div className="d-flex ai-c grey-bg-hover p-1" key={customer.email}>
                                         <strong className="customer-circle">{customer.contactName.slice(0, 1)}</strong>
                                         <p className="ml-2 w-10">{customer.contactName}</p>
