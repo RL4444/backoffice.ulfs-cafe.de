@@ -56,7 +56,7 @@ const styleNodes = {
     },
     columnLeft: {
         width: "60%",
-        marginTop: 130,
+        marginTop: 125,
         // border: "1px solid blue",
     },
     columnRight: {
@@ -81,9 +81,10 @@ class InvoicePDF extends React.Component {
             companyName,
             address,
             invoiceNumber,
+            invoiceVersion,
             eventType,
             eventDate,
-            serviceItems,
+            serviceItems: totalPayload,
             totalNet,
             tax,
             taxAmount,
@@ -93,6 +94,18 @@ class InvoicePDF extends React.Component {
             invoiceDate,
             type = "invoice", // or offer
         } = this.props;
+
+        let serviceItems = totalPayload;
+        let nextPageOfItems = null;
+
+        // if (serviceItems.length > 7) {
+        //     console.log("before ", { totalPayload });
+        //     serviceItems = totalPayload.slice(0, 7);
+        //     console.log("after", { totalPayload });
+        //     nextPageOfItems = totalPayload.slice(0, totalPayload.length - 1);
+        //     console.log({ nextPageOfItems });
+        // }
+
         return (
             <Document>
                 <Page size="A4" style={styles.page}>
@@ -116,8 +129,8 @@ class InvoicePDF extends React.Component {
                             })}
                         {type === "invoice" ? (
                             <>
-                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 30, fontSize: "12px" }}>
-                                    Rechnung Nr: {invoiceNumber}
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 16, fontSize: "12px" }}>
+                                    Rechnung Nr: {invoiceNumber} {invoiceVersion > 0 && "." + invoiceVersion}
                                 </Text>
 
                                 <Text style={{ fontFamily: "InterRegular", marginTop: 12, fontSize: "12px" }}>
@@ -131,7 +144,7 @@ class InvoicePDF extends React.Component {
                                     <Text style={{ fontFamily: "InterRegular", marginTop: 4, fontSize: "12px" }}>{eventKeyword}</Text>
                                 )}
 
-                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 40, fontSize: "12px" }}>
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", marginTop: 12, fontSize: "12px" }}>
                                     Sehr geehrte Damen und Herren
                                 </Text>
                                 <Text
@@ -172,14 +185,14 @@ class InvoicePDF extends React.Component {
                             </>
                         )}
 
-                        <View style={{ display: "flex", marginTop: 40, flexDirection: "row" }}>
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 150, fontSize: "13px" }}>Artikel</Text>
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 60, fontSize: "13px" }}>Anzahl</Text>
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 90, fontSize: "13px" }}>
+                        <View style={{ display: "flex", marginTop: 20, flexDirection: "row" }}>
+                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 150, fontSize: "11px" }}>Artikel</Text>
+                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 60, fontSize: "11px" }}>Anzahl</Text>
+                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 90, fontSize: "11px" }}>
                                 Einzelpreis
                             </Text>
                             <Text
-                                style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 60, fontSize: "13px", textAlign: "right" }}
+                                style={{ fontFamily: "InterSemiBold", fontWeight: "bold", width: 60, fontSize: "10px", textAlign: "right" }}
                             >
                                 Gesamt
                             </Text>
@@ -197,16 +210,16 @@ class InvoicePDF extends React.Component {
                                             flexWrap: "nowrap",
                                         }}
                                     >
-                                        <Text style={{ fontFamily: "InterRegular", width: 150, fontSize: "12px" }}>
+                                        <Text style={{ fontFamily: "InterRegular", width: 150, fontSize: "10px" }}>
                                             {eachServiceItem.article}
                                         </Text>
-                                        <Text style={{ fontFamily: "InterRegular", width: 60, fontSize: "12px", textAlign: "center" }}>
+                                        <Text style={{ fontFamily: "InterRegular", width: 60, fontSize: "10px", textAlign: "center" }}>
                                             {eachServiceItem.quantity}
                                         </Text>
-                                        <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "12px", textAlign: "center" }}>
-                                            {eachServiceItem.price}
+                                        <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "10px", textAlign: "center" }}>
+                                            {Number(eachServiceItem.price).toFixed(2)}€
                                         </Text>
-                                        <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "12px", textAlign: "right" }}>
+                                        <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "10px", textAlign: "right" }}>
                                             {(eachServiceItem.price * eachServiceItem.quantity).toFixed(2)}&nbsp;€
                                         </Text>
                                     </View>
@@ -299,6 +312,11 @@ class InvoicePDF extends React.Component {
                         <Text style={{ fontFamily: "InterRegular", marginTop: 6, fontSize: "12px" }}>SWIFTCODE: BELADEBE</Text>
                     </View>
                 </Page>
+                {nextPageOfItems && nextPageOfItems.length > 0 ? (
+                    <Page size="A4" style={styles.page}>
+                        <View style={styles.columnLeft}></View>
+                    </Page>
+                ) : null}
             </Document>
         );
     }
@@ -311,6 +329,7 @@ export class PlainHTMLPDF extends React.PureComponent {
             companyName,
             address,
             invoiceNumber,
+            invoiceVersion,
             eventType,
             eventDate,
             eventKeyword,
@@ -348,6 +367,7 @@ export class PlainHTMLPDF extends React.PureComponent {
                             <>
                                 <p style={{ fontFamily: "sans-serif", fontWeight: "bold", marginTop: 30, fontSize: "16px" }}>
                                     Rechnung Nr: {invoiceNumber}
+                                    {invoiceVersion > 0 && "." + invoiceVersion}
                                 </p>
                                 <p style={{ fontFamily: "sans-serif", marginTop: 6, fontSize: "16px" }}>
                                     {eventType} am {eventDate}

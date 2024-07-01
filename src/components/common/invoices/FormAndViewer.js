@@ -37,12 +37,13 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
     // Invoice status details
     const [invoiceNumber, setInvoiceNumber] = useState(invoiceId || "123456");
     const [invoiceDate, setInvoiceDate] = useState(new Date());
+    const [invoiceVersion, setInvoiceVersion] = useState(0);
     const [paidStatus, setPaidStatus] = useState(false);
     const [billSent, setBillSent] = useState(false);
     const [vatCharged, setVatCharged] = useState("19% Incl. USt."); // choice of 4
 
     // event data
-    const [peopleNumber, setPeopleNumber] = useState(1);
+    const [peopleNumber, setPeopleNumber] = useState(0);
     const [eventDate, setEventDate] = useState(new Date());
     const [eventType, setEventType] = useState("Catering");
     const [eventKeyword, setEventKeyword] = useState("");
@@ -87,6 +88,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
 
             const invoicePayload = {
                 invoiceNumber,
+                invoiceVersion,
                 invoiceDate,
                 invoiceType,
                 customer,
@@ -125,6 +127,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
         },
         [
             invoiceNumber,
+            invoiceVersion,
             invoiceDate,
             invoiceType,
             customer,
@@ -151,6 +154,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                 setSendError(message);
             } else {
                 setInvoiceNumber(data.invoiceNumber);
+                setInvoiceVersion(data.invoiceVersion);
                 setInvoiceDate(data.invoiceDate ? new Date(data.invoiceDate) : new Date());
                 setPaidStatus(data.paidStatus);
                 setBillSent(data.billSent);
@@ -236,6 +240,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                 companyName={customer.companyName}
                 address={customer.address}
                 invoiceNumber={invoiceNumber}
+                invoiceVersion={invoiceVersion}
                 peopleNumber={peopleNumber}
                 type={invoiceType}
                 eventType={eventType}
@@ -301,6 +306,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
         eventDate,
         eventType,
         invoiceNumber,
+        invoiceVersion,
         getCurrentTotal,
         invoiceDate,
         serviceItems,
@@ -320,7 +326,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
     return (
         <>
             {sendError && <p className="ml-3 text-red">Error: {JSON.stringify(sendError)}</p>}
-            <div className="d-flex h-100">
+            <div className="d-flex h-100 ">
                 {documentLoaded && (
                     <div className="display-none">
                         <PlainHTMLPDF
@@ -330,6 +336,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                             companyName={customer.companyName}
                             address={customer.address}
                             invoiceNumber={invoiceNumber}
+                            invoiceVersion={invoiceVersion}
                             peopleNumber={peopleNumber}
                             eventType={eventType}
                             eventDate={moment(eventDate).format("DD.MM.yyyy")}
@@ -344,7 +351,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                     </div>
                 )}
                 <form onSubmit={handleSubmit} className="w-60 content-container pb-3 mt-1">
-                    <div className="d-flex">
+                    <div className="d-flex ai-c">
                         <div>
                             <p className="light-text label">Zahlungsstatus</p>
                             <Select
@@ -384,6 +391,13 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                             handleChange={(e) => setInvoiceNumber(e.target.value)}
                             positioningClasses="w-20"
                             disabled
+                        />
+                        <Field
+                            inputType="number"
+                            min={0}
+                            value={invoiceVersion}
+                            handleChange={(e) => setInvoiceVersion(e.target.value)}
+                            label={"Version"}
                         />
                         <div className="ml-1">
                             <p className="light-text label">{invoiceType === "invoice" ? "Rechnungsdatum" : "Angebotsdatum"}</p>
@@ -487,12 +501,14 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                 return (
                                     <div className="d-flex ai-c mt-1" key={index}>
                                         <Field
+                                            darkBorder
                                             positioningClasses="w-50"
                                             label={"Artikel"}
                                             value={eachItem.article}
                                             handleChange={(e) => handleItemUpdate(index, "article", e.target.value)}
                                         />
                                         <Field
+                                            darkBorder
                                             positioningClasses="ml-1 w-15"
                                             label={"Anzahl"}
                                             value={eachItem.quantity}
@@ -500,6 +516,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                             handleChange={(e) => handleItemUpdate(index, "quantity", e.target.value)}
                                         />
                                         <Field
+                                            darkBorder
                                             positioningClasses="ml-1 w-15"
                                             label={"Einzelpreis"}
                                             value={eachItem.price}
@@ -552,6 +569,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                         companyName={customer.companyName}
                                         address={customer.address}
                                         invoiceNumber={invoiceNumber}
+                                        invoiceVersion={invoiceVersion}
                                         peopleNumber={peopleNumber}
                                         eventType={eventType}
                                         eventDate={moment(eventDate).format("DD.MM.yyyy")}
@@ -573,6 +591,7 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                                             companyName={customer.companyName}
                                             address={customer.address}
                                             invoiceNumber={invoiceNumber}
+                                            invoiceVersion={invoiceVersion}
                                             peopleNumber={peopleNumber}
                                             eventType={eventType}
                                             eventDate={moment(eventDate).format("DD.MM.yyyy")}

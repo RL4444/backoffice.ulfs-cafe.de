@@ -178,6 +178,9 @@ button {
     color: white;
 }
 
+.bg-green {
+    background: var(--green);
+}
 .bg-white {
     background: white;
 }
