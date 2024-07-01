@@ -629,7 +629,13 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
                 )}
                 {modalOpen && (
                     <Modal closeCb={() => setModalOpen(false)}>
-                        <AddCustomer addCustomerAndClose={addCustomerAndClose} />
+                        <AddCustomer
+                            submitCallback={(newCustomer) => {
+                                setCustomer(newCustomer);
+                                setModalOpen(false);
+                            }}
+                            addCustomerAndClose={addCustomerAndClose}
+                        />
                     </Modal>
                 )}
             </div>

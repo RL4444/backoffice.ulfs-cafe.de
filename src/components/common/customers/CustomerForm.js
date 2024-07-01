@@ -7,7 +7,7 @@ import { getHeaders } from "../../../api";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
-const CustomerForm = ({ customerEmail }) => {
+const CustomerForm = ({ customerEmail, submitCallback }) => {
     const history = useHistory();
     const [sendError, setSendError] = useState(null);
 
@@ -45,6 +45,11 @@ const CustomerForm = ({ customerEmail }) => {
             });
 
             const { success, error } = await res.json();
+
+            if (success && submitCallback) {
+                submitCallback(customerPayload);
+                return;
+            }
 
             if (success) {
                 history.replace("/customers");

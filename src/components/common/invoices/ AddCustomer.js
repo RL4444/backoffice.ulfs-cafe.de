@@ -6,7 +6,7 @@ import { getHeaders } from "../../../api";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
-const AddCustomer = ({ addCustomerAndClose }) => {
+const AddCustomer = ({ addCustomerAndClose, submitCallback = null }) => {
     const [searchMode, setSearcMode] = useState(true);
     const [requestError, setRequestError] = useState(null);
     const [customers, setCustomers] = useState([]);
@@ -51,7 +51,7 @@ const AddCustomer = ({ addCustomerAndClose }) => {
                 </>
             ) : (
                 <div className="mt-2">
-                    <CustomerForm />
+                    <CustomerForm submitCallback={submitCallback} />
                 </div>
             )}
             <p className="mt-3 text-blue c-hover" onClick={() => setSearcMode(!searchMode)}>
