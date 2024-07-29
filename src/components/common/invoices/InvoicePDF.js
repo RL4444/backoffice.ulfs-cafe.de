@@ -98,13 +98,10 @@ class InvoicePDF extends React.Component {
         let serviceItems = totalPayload;
         let nextPageOfItems = null;
 
-        // if (serviceItems.length > 7) {
-        //     console.log("before ", { totalPayload });
-        //     serviceItems = totalPayload.slice(0, 7);
-        //     console.log("after", { totalPayload });
-        //     nextPageOfItems = totalPayload.slice(0, totalPayload.length - 1);
-        //     console.log({ nextPageOfItems });
-        // }
+        if (serviceItems.length > 7) {
+            serviceItems = totalPayload.slice(0, 7);
+            nextPageOfItems = totalPayload.slice(7, totalPayload.length - 1);
+        }
 
         return (
             <Document>
@@ -226,19 +223,21 @@ class InvoicePDF extends React.Component {
                                 );
                             })}
 
-                        <View
-                            style={{
-                                marginTop: 36,
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>Gesamtsumme Netto</Text>
-                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>{totalNet}&nbsp;€</Text>
-                        </View>
-                        {type === "invoice" ? (
+                        {type === "invoice" && totalPayload.length <= 7 ? (
+                            <View
+                                style={{
+                                    marginTop: 36,
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>Gesamtsumme Netto</Text>
+                                <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>{totalNet}&nbsp;€</Text>
+                            </View>
+                        ) : null}
+                        {type === "invoice" && totalPayload.length <= 7 ? (
                             <>
                                 <View
                                     style={{
@@ -265,7 +264,7 @@ class InvoicePDF extends React.Component {
                             <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
                                 Bitte begleichen Sie den Rechnungsbetrag innerhalb von 14 Tagen.
                             </Text>
-                        ) : (
+                        ) : totalPayload.length <= 7 ? (
                             <>
                                 <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
                                     Die im Angebot dargestellten Preise verstehen sich exklusive der gesetzlichen Umsatzsteuer.
@@ -278,7 +277,7 @@ class InvoicePDF extends React.Component {
                                     Dieses Angebot hat eine Gültigkeit von 3 Wochen ab Empfangsdatum.
                                 </Text>
                             </>
-                        )}
+                        ) : null}
                     </View>
 
                     <View style={styles.columnRight}>
@@ -314,7 +313,112 @@ class InvoicePDF extends React.Component {
                 </Page>
                 {nextPageOfItems && nextPageOfItems.length > 0 ? (
                     <Page size="A4" style={styles.page}>
-                        <View style={styles.columnLeft}></View>
+                        <View style={styles.columnLeft}>
+                            {nextPageOfItems.length > 0 &&
+                                nextPageOfItems.map((eachServiceItem, index) => {
+                                    return (
+                                        <View
+                                            key={index}
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                marginTop: 6,
+                                                flexWrap: "nowrap",
+                                            }}
+                                        >
+                                            <Text style={{ fontFamily: "InterRegular", width: 150, fontSize: "10px" }}>
+                                                {eachServiceItem.article}
+                                            </Text>
+                                            <Text style={{ fontFamily: "InterRegular", width: 60, fontSize: "10px", textAlign: "center" }}>
+                                                {eachServiceItem.quantity}
+                                            </Text>
+                                            <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "10px", textAlign: "center" }}>
+                                                {Number(eachServiceItem.price).toFixed(2)}€
+                                            </Text>
+                                            <Text style={{ fontFamily: "InterRegular", width: 90, fontSize: "10px", textAlign: "right" }}>
+                                                {(eachServiceItem.price * eachServiceItem.quantity).toFixed(2)}&nbsp;€
+                                            </Text>
+                                        </View>
+                                    );
+                                })}
+                            <>
+                                {type === "invoice" && totalPayload.length > 7 ? (
+                                    <View
+                                        style={{
+                                            marginTop: 36,
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>
+                                            Gesamtsumme Netto
+                                        </Text>
+                                        <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>
+                                            {totalNet}&nbsp;€
+                                        </Text>
+                                    </View>
+                                ) : null}
+                                {type === "invoice" && totalPayload.length > 7 ? (
+                                    <>
+                                        <View
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                marginTop: 6,
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <Text style={{ fontFamily: "InterRegular", fontSize: "12px" }}>Zzgl. {tax}</Text>
+                                            <Text style={{ fontFamily: "InterRegular", fontSize: "12px" }}>{taxAmount}&nbsp;€</Text>
+                                        </View>
+
+                                        <View
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                marginTop: 36,
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <Text style={{ fontFamily: "InterSemiBold", fontWeight: "bold", fontSize: "12px" }}>
+                                                Gesamtsumme
+                                            </Text>
+                                            <Text
+                                                style={{
+                                                    fontFamily: "InterSemiBold",
+                                                    fontWeight: "bold",
+                                                    marginLeft: "auto",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                {totalAfterTax}&nbsp;€
+                                            </Text>
+                                        </View>
+                                    </>
+                                ) : null}
+                                {type === "invoice" ? (
+                                    <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
+                                        Bitte begleichen Sie den Rechnungsbetrag innerhalb von 14 Tagen.
+                                    </Text>
+                                ) : totalPayload.length > 7 ? (
+                                    <>
+                                        <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "auto" }}>
+                                            Die im Angebot dargestellten Preise verstehen sich exklusive der gesetzlichen Umsatzsteuer.
+                                        </Text>
+                                        <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "8px" }}>
+                                            Bei Fragen, Anmerkungen oder jeglichen Änderungswünschen, zögern Sie nicht, sich telefonisch
+                                            oder per E-Mail mit und in Verbindung zu setzen.
+                                        </Text>
+                                        <Text style={{ fontFamily: "InterRegular", fontSize: "12px", marginTop: "8px" }}>
+                                            Dieses Angebot hat eine Gültigkeit von 3 Wochen ab Empfangsdatum.
+                                        </Text>
+                                    </>
+                                ) : null}
+                            </>
+                        </View>
                     </Page>
                 ) : null}
             </Document>
