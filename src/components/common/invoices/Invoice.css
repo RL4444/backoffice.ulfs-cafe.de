@@ -19,6 +19,10 @@
 .print-pdf-doc p {
     line-height: 24px !important;
 }
+.add-customer-modal-wrapper {
+    height: 50vh;
+    overflow: auto;
+}
 
 @media all {
     .page-break {

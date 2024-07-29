@@ -4,6 +4,8 @@ import { HiUserAdd } from "react-icons/hi";
 import CustomerForm from "../customers/CustomerForm";
 import { getHeaders } from "../../../api";
 
+import "./Invoice.css";
+
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 
 const AddCustomer = ({ addCustomerAndClose, submitCallback = null }) => {
@@ -25,7 +27,7 @@ const AddCustomer = ({ addCustomerAndClose, submitCallback = null }) => {
         fetchCustomers();
     }, [fetchCustomers]);
     return (
-        <div>
+        <div className="add-customer-modal-wrapper">
             <h2 className="mb-1">Kunden</h2>
             {requestError && <p className="text-red mt-1 mb-1">{requestError}</p>}
             {searchMode ? (
@@ -35,7 +37,7 @@ const AddCustomer = ({ addCustomerAndClose, submitCallback = null }) => {
                             return (
                                 <div
                                     className="d-flex ai-c p-1 grey-bg-hover c-hover"
-                                    key={eachCustomer}
+                                    key={`${eachCustomer.name} - ${eachCustomer.email} - ${eachCustomer.companyName}`}
                                     onClick={() => addCustomerAndClose(eachCustomer)}
                                 >
                                     <HiUserAdd />
@@ -54,7 +56,7 @@ const AddCustomer = ({ addCustomerAndClose, submitCallback = null }) => {
                     <CustomerForm submitCallback={submitCallback} />
                 </div>
             )}
-            <p className="mt-3 text-blue c-hover" onClick={() => setSearcMode(!searchMode)}>
+            <p className="mt-3 text-blue ta-r mr-4 c-hover" onClick={() => setSearcMode(!searchMode)}>
                 {searchMode ? "Neu erstellen" : `← Zurück`}
             </p>
         </div>
