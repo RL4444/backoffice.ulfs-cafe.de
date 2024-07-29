@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HiOutlinePlusSm } from "react-icons/hi";
 import Button from "../components/common/Buttons";
 import Navbar from "../components/common/Navbar";
+import { HiArrowRight } from "react-icons/hi";
 
 import { getHeaders } from "../api";
 
@@ -55,14 +56,35 @@ const Customers = () => {
                     {customers.length > 0 &&
                         customers.map((customer) => {
                             return (
-                                <Link to={`customers/${encodeURIComponent(customer.email)}`} key={customer.email}>
-                                    <div className="d-flex ai-c grey-bg-hover p-1" key={customer.email}>
-                                        <strong className="customer-circle">{customer.contactName.slice(0, 1)}</strong>
-                                        <p className="ml-2 w-10">{customer.contactName}</p>
-                                        <p className="ml-2 w-20">{customer.companyName}</p>
-                                        <p className="ml-2 w-20">{customer.email}</p>
+                                <>
+                                    <div className="d-flex ai-c p-1" key={customer.email}>
+                                        <Link
+                                            className="d-flex ai-c grey-bg-hover "
+                                            to={`customers/${encodeURIComponent(customer.email)}`}
+                                            key={customer.email}
+                                        >
+                                            <div className="">
+                                                <strong className="customer-circle">{customer.contactName.slice(0, 1)}</strong>
+                                            </div>
+                                            <div style={{ width: 250, minWidth: 250 }}>
+                                                <p className="ml-2 ">{customer.contactName || "keine Name"}</p>
+                                            </div>
+                                            <div style={{ width: 250, minWidth: 250 }}>
+                                                <p className="ml-2 ">{customer.companyName || "keine Firma"}</p>
+                                            </div>
+                                            <div className="w-20 min-w-20">
+                                                <p className="ml-2 ">{customer.email || "keine email"}</p>
+                                            </div>
+                                        </Link>
+                                        <div className="ml-auto">
+                                            <Button
+                                                hrefTo={`/invoice/new/invoice?customerEmail=${customer.email}`}
+                                                text="neu Rechnung"
+                                                iconRight={<HiArrowRight size="12px" />}
+                                            ></Button>
+                                        </div>
                                     </div>
-                                </Link>
+                                </>
                             );
                         })}
                 </div>

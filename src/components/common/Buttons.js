@@ -11,6 +11,7 @@ const Button = ({
     hrefTo,
     disabled = false,
     icon = null,
+    iconRight = null,
     fullWidth = false,
     onKeyPress = () => {},
 }) => {
@@ -25,7 +26,8 @@ const Button = ({
                     role={role}
                 >
                     {icon && icon}
-                    <span>{text}</span>
+                    <span className={`${icon ? "ml-1" : iconRight ? "mr-1" : ""}`}>{text}</span>
+                    {iconRight && iconRight}
                 </button>
             </Link>
         );
@@ -40,7 +42,8 @@ const Button = ({
             role={role}
         >
             {icon && icon}
-            <span className={`${icon ? "ml-1" : ""}`}>{text}</span>
+            <span className={`${icon ? "ml-1" : iconRight ? "mr-1" : ""}`}>{text}</span>
+            {iconRight && iconRight}
         </button>
     );
 };

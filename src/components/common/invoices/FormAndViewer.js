@@ -25,7 +25,7 @@ import "./form.css";
 const baseUrl = process.env.REACT_APP_API_BASE_URL || "";
 registerLocale("de", de);
 
-const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
+const Form = ({ invoiceId, printRef, emailRef, saveRef, type, customer: inheritedCustomer }) => {
     const history = useHistory();
     const notification = useContext(NotificationContext);
     const invoiceType = type ? type : invoiceId.indexOf("offer") > -1 ? "offer" : "invoice";
@@ -191,7 +191,11 @@ const Form = ({ invoiceId, printRef, emailRef, saveRef, type }) => {
         } else {
             fetchAndSetNextInvoiceNumber();
         }
-    }, [fetchInvoices, invoiceId, fetchAndSetNextInvoiceNumber]);
+
+        if (inheritedCustomer) {
+            setCustomer(inheritedCustomer);
+        }
+    }, [fetchInvoices, invoiceId, fetchAndSetNextInvoiceNumber, inheritedCustomer]);
 
     const downloadPDF = () => {
         console.log("downloading pdf");
