@@ -12,7 +12,6 @@ const NewInvoice = ({ match }) => {
     const [loading, setLoading] = useState(true);
 
     const fetchCustomer = useCallback(async (customerEmail) => {
-        setLoading(true);
         try {
             const res = await fetch(`${baseUrl}/api/v1/customer/?customerEmail=${customerEmail}`, {
                 headers: getHeaders(),
@@ -26,16 +25,16 @@ const NewInvoice = ({ match }) => {
             }
         } catch (error) {
             console.log({ error });
-        } finally {
-            setLoading(false);
         }
     }, []);
 
     useEffect(() => {
+        setLoading(true);
         const { customerEmail } = Object.fromEntries(new URLSearchParams(window.location.search));
         if (customerEmail) {
             fetchCustomer(customerEmail);
         }
+        setLoading(false);
         return () => {};
     }, [fetchCustomer]);
 
